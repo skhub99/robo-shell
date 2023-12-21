@@ -66,3 +66,5 @@ dnf install mongodb-org-shell -y &>> $logfile
 validate $? "Installing mongodb client"
 mongo --host mongodb.sridevops.online </app/schema/catalogue.js &>> $logfile
 validate $? "Loading catalogue data into mongoDB"
+systemctl restart mongod &>> $logfile
+validate $? "Restart Mongodb"
