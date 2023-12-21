@@ -10,6 +10,7 @@ validate(){
     if [ $1 -ne 0 ]
     then 
         echo -e "$2...$R FAILED $N"
+        exit 1
     else
         echo -e "$2...$G SUCCESS $N"
     fi
@@ -27,14 +28,22 @@ dnf module enable nodejs:18 -y &>> $logfile
 validate $? "Enable" 
 dnf install nodejs -y &>> $logfile
 validate $? "Install"
-useradd roboshop &>> $logfile
-validate $? "User Add"
-mkdir /app 
+id roboshop
+
+if [ if $? -ne 0 ]
+then 
+    useradd roboshop
+    validate $? "roboshop user add"
+else
+    echo -e "roboshop user already exists $Y skipping $N"
+fi
+
+mkdir -p /app 
 validate $? "Make dir"
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $logfile
 validate $? "Download zip" 
 cd /app
-unzip /tmp/catalogue.zip &>> $logfile
+unzip -o /tmp/catalogue.zip &>> $logfile
 validate $? "unzip download"
 npm install &>> $logfile
 validate $? "Download dependencies"
