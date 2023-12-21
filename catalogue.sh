@@ -4,8 +4,10 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+
 timestamp=$(date +%F-%H-%M-%S)
 logfile="/tmp/$0-$timestamp.log"
+
 validate(){
     if [ $1 -ne 0 ]
     then 
@@ -22,12 +24,14 @@ then
 else
     echo -e "$G You are the root user $N"
 fi 
+
 dnf module disable nodejs -y &>> $logfile
 validate $? "Disable"
 dnf module enable nodejs:18 -y &>> $logfile
 validate $? "Enable" 
 dnf install nodejs -y &>> $logfile
 validate $? "Install"
+
 id roboshop
 
 if [ if $? -ne 0 ]
