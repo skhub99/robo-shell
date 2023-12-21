@@ -52,7 +52,7 @@ validate $? "unzip download"
 npm install &>> $logfile
 validate $? "Download dependencies"
 #copy from the obsolute path 
-cp /home/centos/robo-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $logfile
+cp /home/centos/robo-shell/catalogue.service /etc/systemd/system/catalogue.service
 validate $? "copy from obs path"
 systemctl daemon-reload &>> $logfile
 validate $? "catalogue DRL"
