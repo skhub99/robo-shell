@@ -60,11 +60,9 @@ systemctl enable catalogue &>> $logfile
 validate $? "Enable Cat"
 systemctl start catalogue &>> $logfile
 validate $? "Start catalogue"
-cp /home/centos/robo-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $logfile
+cp /home/centos/robo-shell/mongo.repo /etc/yum.repos.d/mongo.repo
 validate $? "copy mongodb repo"
 dnf install mongodb-org-shell -y &>> $logfile
 validate $? "Installing mongodb client"
 mongo --host mongodb.sridevops.online </app/schema/catalogue.js &>> $logfile
 validate $? "Loading catalogue data into mongoDB"
-systemctl restart mongod &>> $logfile
-validate $? "Restart Mongodb"
