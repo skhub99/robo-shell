@@ -7,6 +7,7 @@ N="\e[0m"
 
 timestamp=$(date +%F-%H-%M-%S)
 logfile="/tmp/$0-$timestamp.log"
+echo "Script started executing at $timestamp" &>> $logfile
 
 validate(){
     if [ $1 -ne 0 ]
@@ -25,21 +26,21 @@ else
     echo -e "$G You are the root user $N"
 fi 
 
-dnf install nginx -y
+dnf install nginx -y &>> $logfile
 validate $? "Install Nginx"
-systemctl enable nginx
+systemctl enable nginx &>> $logfile
 validate $? "Enable Nginx"
-systemctl start nginx
+systemctl start nginx &>> $logfile
 validate $? "Start nginx"
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>> $logfile
 validate $? "Remove default"
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $logfile
 validate $? "download web app"
-cp /usr/share/nginx/html
+cp /usr/share/nginx/html &>> $logfile
 validate $? "moving to nginx html dir"
-unzip /tmp/web.zip
+unzip /tmp/web.zip &>> $logfile
 validate $? "unzip web"
-cp /home/centos/robo-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf
+cp /home/centos/robo-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $logfile
 validate $? "copied reverse proxy conf"
-systemctl restart nginx
+systemctl restart nginx &>> $logfile
 validate $? "restarted nginx"
