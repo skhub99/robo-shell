@@ -38,7 +38,7 @@ curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $logfi
 validate $? "download web app"
 cp /usr/share/nginx/html &>> $logfile
 validate $? "moving to nginx html dir"
-unzip /tmp/web.zip &>> $logfile
+unzip -o /tmp/web.zip &>> $logfile
 validate $? "unzip web"
 cp /home/centos/robo-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $logfile
 validate $? "copied reverse proxy conf"
