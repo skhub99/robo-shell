@@ -22,21 +22,26 @@ validate(){
 if [ $ID -ne 0 ]
 then
     echo -e "$R Error: Please run the script with root user $N"
+    exit 1
 else
     echo -e "$G You are the root user $N"
 fi 
 
 dnf install nginx -y &>> $logfile
 validate $? "Install Nginx"
+
 systemctl enable nginx &>> $logfile
 validate $? "Enable Nginx"
+
 systemctl start nginx &>> $logfile
 validate $? "Start nginx"
+
 rm -rf /usr/share/nginx/html/* &>> $logfile
 validate $? "Remove default"
+
 curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $logfile
 validate $? "download web app"
-cp /usr/share/nginx/html &>> $logfile
+cd /usr/share/nginx/html &>> $logfile
 validate $? "moving to nginx html dir"
 unzip -o /tmp/web.zip &>> $logfile
 validate $? "unzip web"
