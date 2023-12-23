@@ -1,7 +1,5 @@
 #!/bin/bash
-
 ID=$(id -u)
-
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -46,24 +44,19 @@ fi
 
 mkdir -p /app 
 validate $? "Make dir"
-curl -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $logfile
+curl -o /tmp/cart.zip https://roboshop-builds.s3.amazonaws.com/cart.zip &>> $logfile
 validate $? "Download zip" 
 cd /app
-unzip -o /tmp/user.zip &>> $logfile
+unzip -o /tmp/cart.zip &>> $logfile
 validate $? "unzip download"
 npm install &>> $logfile
 validate $? "Download dependencies"
-cp /home/centos/robo-shell/user.service /etc/systemd/system/user.service
+#copy from the obsolute path 
+cp /home/centos/robo-shell/cart.service /etc/systemd/system/cart.service
 validate $? "copy from obs path"
 systemctl daemon-reload &>> $logfile
-validate $? "user DRL"
-systemctl enable user &>> $logfile
-validate $? "Enable User"
-systemctl start user &>> $logfile
-validate $? "Start User"
-cp /home/centos/robo-shell/mongo.repo /etc/yum.repos.d/mongo.repo
-validate $? "copy mongodb repo"
-dnf install mongodb-org-shell -y &>> $logfile
-validate $? "Installing mongodb client"
-mongo --host mongodb.sridevops.online </app/schema/user.js &>> $logfile
-validate $? "Loading user data into mongoDB"
+validate $? "cart DRL"
+systemctl enable cart &>> $logfile
+validate $? "Enable Cart"
+systemctl start cart &>> $logfile
+validate $? "Start cart"
