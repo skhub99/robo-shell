@@ -13,5 +13,5 @@ do
     else
         instance_type="t2.micro"
     fi
-    aws ec2 run-instances --image-id ami-03265a0778a880afb --instance-type $instance_type --security-group-ids sg-073d40c36b7ddfbf2
+    "aws ec2 run-instances --image-id ami-03265a0778a880afb --instance-type $instance_type --security-group-ids sg-073d40c36b7ddfbf2"
 done
