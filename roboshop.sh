@@ -6,7 +6,7 @@ instances=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipp
 
 for i in "${instances[@]}"
 do
-    echo "instance is: $i"
+    echo "Instance is: $i"
     if [ $i == "mongodb" ] || [ $i == "mysql" ] || [ $i == "shipping" ]
     then
         instance_type="t3.small"
@@ -14,5 +14,5 @@ do
         instance_type="t2.micro"
     fi
     IP_Address=$(aws ec2 run-instances --image-id $AMI --instance-type $instance_type --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text)
-    echo " $i = $IP_Address"
+    echo " IP Address of $i Instance is: $IP_Address"
 done
