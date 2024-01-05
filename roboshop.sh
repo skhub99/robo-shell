@@ -13,6 +13,6 @@ do
     else
         instance_type="t2.micro"
     fi
-    IP_Address=$(aws ec2 run-instances --image-id $AMI --instance-type $instance_type --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --Query 'Instances[0].PrivateIpAddress' --output text)
+    IP_Address=$(aws ec2 run-instances --image-id $AMI --instance-type $instance_type --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text)
     echo " $i = $IP_Address"
 done
